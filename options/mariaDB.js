@@ -1,4 +1,4 @@
-const optionsMariaDB = {
+export const optionsMariaDB = {
     client: "mysql",
     connection: {
         host: "localhost",
@@ -7,5 +7,3 @@ const optionsMariaDB = {
         database: "desafioClase16",
     },
 };
-
-module.exports = { optionsMariaDB };

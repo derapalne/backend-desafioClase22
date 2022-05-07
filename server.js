@@ -1,11 +1,11 @@
-const ArchivadorProductos = require("./src/archivadorProductos");
-const { optionsMariaDB } = require("./options/mariaDB");
-const ArchivadorMensajes = require("./src/archivadorMensajes");
-const { optionsSQLite } = require("./options/SQLite3");
+import ArchivadorProductos from "./src/daos/archivadorDaoProductos.js";
+import { optionsMariaDB } from "./options/mariaDB.js";
+import ArchivadorMensajes from "./src/daos/archivadorDaoMensajes.js";
+import { optionsSQLite } from "./options/SQLite3.js";
 
-const express = require("express");
-const { Server: HttpServer } = require("http");
-const { Server: IOServer } = require("socket.io");
+import express from "express";
+import { Server as HttpServer } from "http";
+import { Server as IOServer } from "socket.io";
 
 const app = express();
 const httpServer = new HttpServer(app);

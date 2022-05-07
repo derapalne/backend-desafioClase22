@@ -1,7 +1,7 @@
-const Archivador = require('./archivador');
+import Archivador from '../contenedor/contenedorArchivador.js';
 
 
-class ArchivadorMensajes extends Archivador {
+export default class ArchivadorMensajes extends Archivador {
     constructor(tableName, config) {
         super(tableName, config);
     }
@@ -54,5 +54,3 @@ class ArchivadorMensajes extends Archivador {
         return true;
     }
 }
-
-module.exports = ArchivadorMensajes;

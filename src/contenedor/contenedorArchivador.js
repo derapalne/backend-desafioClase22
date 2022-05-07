@@ -1,6 +1,6 @@
-const knex = require("knex");
+import knex from 'knex';
 
-class Archivador {
+export default class ContenedorArchivador {
     constructor(tableName, config) {
         this.tableName = tableName;
         this.knex = knex(config);
@@ -22,5 +22,3 @@ class Archivador {
         }
     }
 }
-
-module.exports = Archivador;
