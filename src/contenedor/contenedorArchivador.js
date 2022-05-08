@@ -7,18 +7,20 @@ export default class ContenedorArchivador {
     }
 
     async save(data) {
-        if (this.check(data)) {
-            this.knex(this.tableName)
-                .insert(data)
-                .then(() => {
-                    console.log("Guardado! =>", data);
-                })
-                .catch((e) => console.log(e))
-                return 1;
-                //.finally(() => this.knex.destroy());
-        } else {
-            console.log(data, "Error");
-            return "error";
+        try {
+            if (this.check(data)) {
+                this.knex(this.tableName)
+                    .insert(data)
+                    .then(() => {
+                        console.log("Guardado! =>", data);
+                    })
+                    .catch((e) => console.log(e))
+                    return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            throw new Error(e);
         }
     }
 }

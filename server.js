@@ -2,6 +2,7 @@ import ArchivadorProductos from "./src/daos/archivadorDaoProductos.js";
 import { optionsMariaDB } from "./options/mariaDB.js";
 import ArchivadorMensajes from "./src/daos/archivadorDaoMensajes.js";
 import { optionsSQLite } from "./options/SQLite3.js";
+import mocker from './src/utils/mocker.js';
 
 import express from "express";
 import { Server as HttpServer } from "http";
@@ -48,23 +49,36 @@ const inicializarProductos = () => {
 // inicializarProductos();
 
 app.get("/", async (req, res) => {
-    const productos = await archProductos.getAll();
-    const mensajes = await archMensajes.read();
-    // console.log("mensajes", mensajes);
-    res.render("productosForm", { prods: productos, mensajes: mensajes});
+    try {
+        const productos = await archProductos.getAll();
+        const mensajes = await archMensajes.read();
+        res.status(200).render("productosForm", { prods: productos, mensajes: mensajes});
+    } catch (e) {
+        res.status(500).send(e);
+    }
 });
+
+app.get("/api/productos-test", async (req, res) => {
+    try {
+        const productos = mocker.generarProductos(5);
+        const mensajes = await archMensajes.read();
+        res.status(200).render("productosForm", {prods: productos, mensajes: mensajes});
+    } catch (e) {
+        res.status(500).send(e);
+    }
+})
 
 const PORT = 8080;
 httpServer.listen(PORT, () => console.log("Lisstooooo ", PORT));
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
     console.log(`Nuevo cliente conectado: ${socket.id.substring(0, 4)}`);
     socket.on("productoAgregado", async (producto) => {
         // console.log(producto);
         const respuestaApi = await archProductos.save(producto);
         console.log({respuestaApi});
         // respuestaApi es el ID del producto, si no es un número, es un error (ver API)
-        if (isNaN(respuestaApi)) {
+        if (!respuestaApi) {
             socket.emit("productoInvalido", respuestaApi);
         } else {
             console.log(respuestaApi, "producto valido");
