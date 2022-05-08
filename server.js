@@ -2,7 +2,8 @@ import ArchivadorProductos from "./src/daos/archivadorDaoProductos.js";
 import { optionsMariaDB } from "./options/mariaDB.js";
 import ArchivadorMensajes from "./src/daos/archivadorDaoMensajes.js";
 import { optionsSQLite } from "./options/SQLite3.js";
-import mocker from './src/utils/mocker.js';
+import Mocker from "./src/utils/mocker.js";
+const mocker = new Mocker();
 
 import express from "express";
 import { Server as HttpServer } from "http";
@@ -52,7 +53,7 @@ app.get("/", async (req, res) => {
     try {
         const productos = await archProductos.getAll();
         const mensajes = await archMensajes.read();
-        res.status(200).render("productosForm", { prods: productos, mensajes: mensajes});
+        res.status(200).render("productosForm", { prods: productos, mensajes: mensajes });
     } catch (e) {
         res.status(500).send(e);
     }
@@ -62,11 +63,11 @@ app.get("/api/productos-test", async (req, res) => {
     try {
         const productos = mocker.generarProductos(5);
         const mensajes = await archMensajes.read();
-        res.status(200).render("productosForm", {prods: productos, mensajes: mensajes});
+        res.status(200).render("productosForm", { prods: productos, mensajes: mensajes });
     } catch (e) {
         res.status(500).send(e);
     }
-})
+});
 
 const PORT = 8080;
 httpServer.listen(PORT, () => console.log("Lisstooooo ", PORT));
@@ -76,7 +77,7 @@ io.on("connection", async (socket) => {
     socket.on("productoAgregado", async (producto) => {
         // console.log(producto);
         const respuestaApi = await archProductos.save(producto);
-        console.log({respuestaApi});
+        console.log({ respuestaApi });
         // respuestaApi es el ID del producto, si no es un número, es un error (ver API)
         if (!respuestaApi) {
             socket.emit("productoInvalido", respuestaApi);

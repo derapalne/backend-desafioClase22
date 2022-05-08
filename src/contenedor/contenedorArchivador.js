@@ -1,4 +1,4 @@
-import knex from 'knex';
+import knex from "knex";
 
 export default class ContenedorArchivador {
     constructor(tableName, config) {
@@ -14,8 +14,8 @@ export default class ContenedorArchivador {
                     .then(() => {
                         console.log("Guardado! =>", data);
                     })
-                    .catch((e) => console.log(e))
-                    return true;
+                    .catch((e) => console.log(e));
+                return true;
             } else {
                 return false;
             }

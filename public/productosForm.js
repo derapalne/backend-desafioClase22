@@ -14,7 +14,6 @@ const mensajeChat = document.getElementById("mensaje-chat");
 const enviar = document.getElementById("enviar");
 const chat = document.getElementById("chat");
 
-
 // Agregar producto
 agregar.addEventListener("click", (e) => {
     e.preventDefault();
@@ -45,19 +44,19 @@ enviar.addEventListener("click", (e) => {
     socket.emit("mensajeEnviado", {
         mail: mail.value,
         timestamp: timestamp,
-        texto: mensajeChat.value
+        texto: mensajeChat.value,
     });
-    mensajeChat.value = '';
+    mensajeChat.value = "";
 });
 
 // Actualizar el chat
-socket.on('chatRefresh', (mensaje) => {
+socket.on("chatRefresh", (mensaje) => {
     chat.innerHTML += `<p>
     <strong style="color: #77f">${mensaje.mail}</strong>
     | ${mensaje.timestamp} :
     <em style="color: green">${mensaje.texto}</em>
 </p>`;
-})
+});
 
 // Actualizar productos
 socket.on("productosRefresh", (productos) => {
