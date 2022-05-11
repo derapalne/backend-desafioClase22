@@ -1,8 +1,5 @@
-import normalizr from "normalizr";
+import {normalize, denormalize, schema} from "normalizr";
 import util from "util";
-const normalize = normalizr.normalize;
-const denormalize = normalizr.denormalize;
-const schema = normalizr.schema;
 
 import originalData from "./holding.js";
 
